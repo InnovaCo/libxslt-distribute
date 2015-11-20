@@ -1,6 +1,8 @@
 /**
  * Creates a standalone distribution bundle with LibXSLT and LibXML node modules,
- * compiled. Simply download and use it
+ * compiled. Simply download and use it.
+ *
+ * This script should work with Node v0.12
  */
 'use strict';
 
@@ -18,11 +20,11 @@ module.exports = function(bundleName) {
 	var release = createReleasePayload(src);
 	
 	console.log('Creating bundle %s from %s', bundleName, src);
-	bundle(src, `${bundleName}.zip`)
-	.pipe(through.obj((file, enc, next) => {
+	bundle(src, bundleName + '.zip')
+	.pipe(through.obj(function(file, enc, next) {
 		release.assets.push(file);
 		next(null, file);
-	}, next => {
+	}, function(next) {
 		console.log('Publishing assets');
 		publish(release).then(next, next);
 	}));
@@ -30,7 +32,7 @@ module.exports = function(bundleName) {
 
 function createBundleName() {
 	var nodeVersion = process.version.match(/v\d+\.\d+/)[0];
-	return `libxslt-${nodeVersion}-${process.platform}-${process.arch}`;
+	return ['libxslt', nodeVersion, process.platform, process.arch].join('-');
 }
 
 function createReleasePayload(src) {
@@ -38,7 +40,7 @@ function createReleasePayload(src) {
 	var libxsltPkg = require(path.resolve(src, 'package.json'));
 	var repo = parseUrl(pkg.repository.url).pathname.slice(1).replace(/\.git$/, '');
 	return {
-		repo,
+		repo: repo,
 		release: 'v' + libxsltPkg.version,
 		assets: []
 	};
