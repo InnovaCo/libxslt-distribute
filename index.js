@@ -39,7 +39,7 @@ function createBundleName() {
 function createReleasePayload(src) {
 	// create release with LibXSLT version
 	var libxsltPkg = require(path.resolve(src, 'package.json'));
-	var repo = parseUrl(pkg.repository.url).pathname.slice(1).replace(/\.git$/, '');
+	var repo = parseUrl(pkg.config.publishRepo).pathname.slice(1).replace(/\.git$/, '');
 	return {
 		repo: repo,
 		release: 'v' + libxsltPkg.version,

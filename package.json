@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/InnovaCo/libxslt-distribute/issues"
   },
-  "homepage": "https://github.com/InnovaCo/libxslt-distribute#readme"
+  "homepage": "https://github.com/InnovaCo/libxslt-distribute#readme",
+  "config": {
+    "publishRepo": "https://github.com/InnovaCo/libxslt-prebuilt"
+  }
 }
