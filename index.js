@@ -12,7 +12,6 @@ var through = require('through2');
 var parseUrl = require('url').parse;
 var bundle = require('./lib/bundle');
 var publish = require('./lib/publish');
-var arch = require('./lib/arch');
 var pkg = require('./package.json');
 
 module.exports = function(bundleName) {
@@ -33,7 +32,7 @@ module.exports = function(bundleName) {
 
 function createBundleName() {
 	var nodeVersion = process.version.match(/v\d+\.\d+/)[0];
-	return ['libxslt', nodeVersion, process.platform, arch()].join('-');
+	return ['libxslt', nodeVersion, process.platform, process.arch].join('-');
 }
 
 function createReleasePayload(src) {
